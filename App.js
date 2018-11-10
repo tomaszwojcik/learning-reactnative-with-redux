@@ -7,13 +7,32 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button} from 'react-native';
-import { createStackNavigator } from 'react-navigation';
+import { Dimensions, Platform, StyleSheet, Text, View, Button} from 'react-native';
+import { createStackNavigator, NavigationEvents } from 'react-navigation';
 
 class HomeScreen extends Component {
+    addDimensionListener = () => {
+        console.log('Add dimension listener')
+        Dimensions.addEventListener('change', this.onDimensionsChange);
+    }
+
+    removeDimensionListener = () => {
+        console.log('Remove dimension listener')
+        Dimensions.removeEventListener('change', this.onDimensionsChange);
+    }
+
+    onDimensionsChange = (dims) => {
+        console.log('New window width ' + dims.window.width);
+        console.log('New screen width ' + dims.screen.width);
+    }
+
     render() {
         return <View>
             <Text>Home screen</Text>
+            <NavigationEvents
+                onWillFocus={this.addDimensionListener}
+                onWillBlur={this.removeDimensionListener}
+            />
             <Button
                 title='Go to Details'
                 onPress={() => this.props.navigation.navigate('Details')}
