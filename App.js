@@ -11,24 +11,46 @@ import { Dimensions, Platform, StyleSheet, Text, View, Button} from 'react-nativ
 import { createStackNavigator, NavigationEvents } from 'react-navigation';
 
 class HomeScreen extends Component {
-    addDimensionListener = () => {
-        console.log('Add dimension listener')
-        Dimensions.addEventListener('change', this.onDimensionsChange);
+    state = {
+        orientation: Dimensions.get('window').height > Dimensions.get('window').width ? 'portrait' : 'landscape'
+    };
+
+    constructor(props) {
+        super(props);
+        console.log(this.state.orientation);
     }
+
+    updateOrientation = () => {
+        let { height, width } = Dimensions.get('window');
+        if (height > width) {
+            this.setState({
+                orientation: 'portrait'
+            });
+
+        } else {
+            this.setState({
+                orientation: 'landscape'
+            });
+        }
+
+        console.log(this.state.orientation);
+    };
+
+    addDimensionListener = () => {
+        Dimensions.addEventListener('change', this.onDimensionsChange);
+    };
 
     removeDimensionListener = () => {
-        console.log('Remove dimension listener')
         Dimensions.removeEventListener('change', this.onDimensionsChange);
-    }
+    };
 
     onDimensionsChange = (dims) => {
-        console.log('New window width ' + dims.window.width);
-        console.log('New screen width ' + dims.screen.width);
-    }
+        this.updateOrientation();
+    };
 
     render() {
         return <View>
-            <Text>Home screen</Text>
+            <Text>Orientation: {this.state.orientation}</Text>
             <NavigationEvents
                 onWillFocus={this.addDimensionListener}
                 onWillBlur={this.removeDimensionListener}
@@ -39,7 +61,7 @@ class HomeScreen extends Component {
             />
         </View>
     };
-};
+}
 
 class DetailsScreen extends Component {
     render() {
