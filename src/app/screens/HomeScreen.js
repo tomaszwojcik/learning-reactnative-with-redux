@@ -42,17 +42,19 @@ class HomeScreen extends Component {
     };
 
     render() {
-        return <View>
-            <Text>Orientation: {this.state.orientation}</Text>
-            <NavigationEvents
-                onWillFocus={this.addDimensionListener}
-                onWillBlur={this.removeDimensionListener}
-            />
-            <Button
-                title='Go to Details'
-                onPress={() => this.props.navigation.navigate('Details')}
-            />
-        </View>
+        return (
+            <View>
+                <Text>Orientation: {this.state.orientation}</Text>
+                <NavigationEvents
+                    onWillFocus={this.addDimensionListener}
+                    onWillBlur={this.removeDimensionListener}
+                />
+                <Button
+                    title='Go to Details'
+                    onPress={() => this.props.navigation.navigate('Details')}
+                />
+            </View>
+        )
     };
 }
 
