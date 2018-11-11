@@ -27,13 +27,16 @@ class HomeScreen extends Component {
         }
 
         console.log(this.state.orientation);
+        console.log(this.props.navigator);
     };
 
     componentDidAppear = () => {
+        console.log('Component did appear');
         Dimensions.addEventListener('change', this.onDimensionsChange);
     };
 
-    componendDidDisappear = () => {
+    componentDidDisappear = () => {
+        console.log('Component did disappear');
         Dimensions.removeEventListener('change', this.onDimensionsChange);
     };
 

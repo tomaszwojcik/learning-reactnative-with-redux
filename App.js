@@ -33,7 +33,7 @@ Navigation.events().registerAppLaunchedListener(() => {
                 children: [
                     {
                         component: {
-                            name: 'simple-app.Home'
+                            name: 'simple-app.Home',
                         }
                     }
                 ]
