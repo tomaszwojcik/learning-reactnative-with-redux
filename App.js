@@ -6,20 +6,20 @@
  * @flow
  */
 
-import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-
+import React from 'react';
 import { Navigation } from 'react-native-navigation';
-
+import { Provider } from 'react-redux';
+import configureStore from './src/app/configureStore';
 import HomeScreen from './src/app/screens/HomeScreen';
 import DetailsScreen from './src/app/screens/DetailsScreen';
 
-import reducers from './src/app/reducers';
+const store = configureStore();
+console.log('!!!!!!!!!!')
+console.log(store)
+console.log('!!!!!!!!!!')
 
-Navigation.registerComponent('simple-app.Home', () => HomeScreen);
-Navigation.registerComponent('simple-app.Details', () => DetailsScreen);
+Navigation.registerComponentWithRedux('simple-app.Home', () => HomeScreen, Provider, store);
+Navigation.registerComponentWithRedux('simple-app.Details', () => DetailsScreen, Provider, store);
 
 Navigation.events().registerAppLaunchedListener(() => {
     Navigation.setRoot({
@@ -41,25 +41,3 @@ Navigation.events().registerAppLaunchedListener(() => {
         }
     });
 });
-
-// const RootStack = createStackNavigator(
-//     {
-//         Home: HomeScreen,
-//         Details: DetailsScreen
-//     },
-//     {
-//         initialRouteName: 'Home'
-//     }
-// );
-
-
-//
-// export default class App extends Component {
-//     render() {
-//         return (
-//             <Provider store={createStore(reducers)}>
-//                 <Text>Test</Text>
-//                 {/*<RootStack />;*/}
-//             </Provider>
-//         );
-//     }

@@ -3,7 +3,7 @@ function login(previousState = {}, action) {
         case 'PERFORM_LOGIN':
             return {
                 ...previousState,
-                loggedIn: true
+                loggedIn: action.email === 'user@domain.com' && action.password === 'secret'
             };
 
         default:

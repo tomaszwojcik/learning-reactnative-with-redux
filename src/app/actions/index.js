@@ -1,4 +1,4 @@
-function performLogin(email, password) {
+export const performLogin = (email, password) => {
     return {
         type: 'PERFORM_LOGIN',
         email: email,
