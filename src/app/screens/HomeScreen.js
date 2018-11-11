@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { Button, Dimensions, Text, View } from "react-native";
-import { NavigationEvents } from "react-navigation";
+import { Navigation } from 'react-native-navigation';
 import React from "react";
 
 class HomeScreen extends Component {
@@ -10,7 +10,7 @@ class HomeScreen extends Component {
 
     constructor(props) {
         super(props);
-        console.log(this.state.orientation);
+        Navigation.events().bindComponent(this);
     }
 
     updateOrientation = () => {
@@ -29,11 +29,11 @@ class HomeScreen extends Component {
         console.log(this.state.orientation);
     };
 
-    addDimensionListener = () => {
+    componentDidAppear = () => {
         Dimensions.addEventListener('change', this.onDimensionsChange);
     };
 
-    removeDimensionListener = () => {
+    componendDidDisappear = () => {
         Dimensions.removeEventListener('change', this.onDimensionsChange);
     };
 
@@ -41,17 +41,21 @@ class HomeScreen extends Component {
         this.updateOrientation();
     };
 
+    navigateToDetails = () => {
+      Navigation.push(this.props.componentId, {
+          component: {
+              name: 'simple-app.Details'
+          }
+      });
+    };
+
     render() {
         return (
             <View>
                 <Text>Orientation: {this.state.orientation}</Text>
-                <NavigationEvents
-                    onWillFocus={this.addDimensionListener}
-                    onWillBlur={this.removeDimensionListener}
-                />
                 <Button
                     title='Go to Details'
-                    onPress={() => this.props.navigation.navigate('Details')}
+                    onPress={this.navigateToDetails}
                 />
             </View>
         )
