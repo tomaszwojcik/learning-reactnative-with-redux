@@ -1,8 +1,8 @@
 import { createStore, combineReducers, compose } from 'redux';
-import loginReducers from './reducers/Login';
+import loginReducers from './reducers/AuthReducer';
 
 const rootReducer = combineReducers({
-    login: loginReducers
+    auth: loginReducers
 });
 
 let composeEnchancers = compose;

@@ -3,7 +3,7 @@ import { Button, Dimensions, Text, View , TextInput} from "react-native";
 import { connect } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 import React from "react";
-import { performLogin } from '../actions/index';
+import { loginUser } from '../actions/index';
 
 class HomeScreen extends Component {
     state = {
@@ -17,8 +17,8 @@ class HomeScreen extends Component {
         Navigation.events().bindComponent(this);
     }
 
-    updateOrientation = () => {
-        let { height, width } = Dimensions.get('window');
+    updateOrientation = (dims) => {
+        let { height, width } = dims.window;
         if (height > width) {
             this.setState({
                 orientation: 'portrait'
@@ -35,17 +35,11 @@ class HomeScreen extends Component {
     };
 
     componentDidAppear = () => {
-        console.log('Component did appear');
-        Dimensions.addEventListener('change', this.onDimensionsChange);
+        Dimensions.addEventListener('change', this.updateOrientation);
     };
 
     componentDidDisappear = () => {
-        console.log('Component did disappear');
-        Dimensions.removeEventListener('change', this.onDimensionsChange);
-    };
-
-    onDimensionsChange = (dims) => {
-        this.updateOrientation();
+        Dimensions.removeEventListener('change', this.updateOrientation);
     };
 
     navigateToDetails = () => {
@@ -56,12 +50,12 @@ class HomeScreen extends Component {
       });
     };
 
-    onLoginPressed = () => {
-        this.props.onLogin(this.state.email, this.state.password);
+    onSyncLoginPressed = () => {
+        this.props.loginUser(this.state.email, this.state.password);
         if (this.props.loggedIn) {
             this.navigateToDetails();
         }
-    }
+    };
 
     render() {
         return (
@@ -72,7 +66,7 @@ class HomeScreen extends Component {
                     placeholder='Enter your email...'
                     onChangeText={(text) => this.setState({ email: text })}
                     keyboardType='email-address'
-                    autocapitalize='none'
+                    autoCapitalize='none'
                 />
                 <TextInput
                     value={this.state.password}
@@ -81,8 +75,12 @@ class HomeScreen extends Component {
                     secureTextEntry
                 />
                 <Button
-                    title='Login'
-                    onPress={this.onLoginPressed}
+                    title='Async Login'
+                    onPress={() => console.log('NOT YET IMPLEMENTED')}
+                />
+                <Button
+                    title='Sync Login'
+                    onPress={this.onSyncLoginPressed}
                 />
             </View>
         )
@@ -97,7 +95,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onLogin: (email, password) => dispatch(performLogin(email, password))
+        loginUser: (email, password) => dispatch(loginUser(email, password))
     }
 };
 
